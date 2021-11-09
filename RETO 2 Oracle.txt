@@ -1,0 +1,129 @@
+--Eliminar de la Base de Datos
+DROP TABLE partyroom;
+DROP TABLE category;
+DROP TABLE client;
+DROP TABLE message;
+
+--Hacer un reset de la tabla y dejarla en blanco si existe
+TRUNCATE TABLE partyroom;
+TRUNCATE TABLE category;
+TRUNCATE TABLE client;
+TRUNCATE TABLE message;
+
+
+--Comando para Crear la tabla Partyroom
+CREATE TABLE partyroom (
+	ID NUMBER(10) NOT NULL,
+	OWNER VARCHAR2(20) NULL,
+	CAPACITY NUMBER(10) NULL,
+	CATEGORY_ID NUMBER(10) NULL,
+    NAME VARCHAR2(4000) NULL,
+	PRIMARY KEY (ID));
+
+--Comando para crear la tabla Category
+CREATE TABLE category (
+	ID NUMBER(10) NOT NULL,
+	NAME VARCHAR2(4000) NULL,
+	PRIMARY KEY (ID));
+
+--Comando para crear la tabla client
+CREATE TABLE client (
+	ID NUMBER(10) NOT NULL,
+    NAME VARCHAR2(4000) NULL,
+	EMAIL VARCHAR2(20) NULL,
+	AGE NUMBER(10) NULL,
+	PRIMARY KEY (ID));
+
+--Comando para crear la tabla message
+CREATE TABLE message (
+	ID NUMBER(10) NOT NULL,
+	MESSAGETEXT VARCHAR2(4000) NULL,
+	PRIMARY KEY (ID));
+
+
+
+
+
+--CREAR MODULO client
+
+--Crear Plantilla client o servicios REST de CLIENT
+--GET
+SELECT * FROM client ORDER BY 1
+
+--POST
+BEGIN
+    INSERT INTO client (ID,NAME,EMAIL,AGE) 
+	VALUES (:id,:name,:email,:age);
+    :status_code:=201;
+END;
+
+--PUT
+BEGIN
+    UPDATE client SET NAME=:name, EMAIL=:email,
+    AGE=:age WHERE ID=:id;
+    :status_code:=201;
+END;
+
+--DELETE
+BEGIN
+    DELETE FROM client WHERE ID = :id;
+    :status_code:=204;
+END;
+
+
+-- Crear Planilla client/:id
+--GET
+SELECT * FROM client WHERE ID = :id
+
+
+
+
+
+--Crear Planilla message
+--GET
+SELECT * FROM message ORDER BY 1
+--POST
+BEGIN
+    INSERT INTO message (ID,MESSAGETEXT) 
+	VALUES (:id,:messagetext);
+    :status_code:=201;
+END;
+--PUT
+BEGIN
+    UPDATE message SET MESSAGETEXT=:messagetext WHERE ID=:id;
+    :status_code:=201;
+END;
+--DELETE
+BEGIN
+    DELETE FROM message WHERE ID = :id;
+    :status_code:=204;
+END;
+
+
+
+
+
+
+--Crear Plantilla category
+--GET
+SELECT * FROM category  ORDER BY 1
+--POST
+BEGIN
+    INSERT INTO category (ID,NAME) 
+	VALUES (:id,:name);
+    :status_code:=201;
+END;
+--PUT
+BEGIN
+    UPDATE category SET NAME=:name WHERE ID=:id;
+    :status_code:=201;
+END;
+--DELETE
+BEGIN
+    DELETE FROM category WHERE ID = :id;
+    :status_code:=204;
+END;
+
+--Crear Plantilla category/:id
+--GET
+SELECT * FROM category WHERE ID = :id
